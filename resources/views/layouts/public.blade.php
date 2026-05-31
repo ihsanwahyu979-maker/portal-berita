@@ -157,6 +157,15 @@
         .footer-link  { color:#6b7280; text-decoration:none; font-size:.85rem; display:block; margin-bottom:6px; transition:color .2s; }
         .footer-link:hover { color: var(--red); }
         .footer-icon  { color: var(--red); }
+        .footer-social-btn {
+            background:#1f2937; color:#9ca3af;
+            border-radius:8px; padding:6px 10px;
+            transition: all .25s;
+        }
+        .footer-social-btn:hover {
+            background: var(--red); color:#fff;
+            transform: translateY(-2px);
+        }
 
         /* ── UTILS ── */
         .lc2 { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
@@ -211,7 +220,7 @@
 {{-- ══════════ NAV ══════════ --}}
 <nav class="site-nav d-none d-lg-block">
     <div class="container-xl d-flex">
-        <a href="/" class="nav-link {{ !request('category') && !request('search') ? 'active-cat' : '' }}">
+        <a href="/" class="nav-link {{ request()->is('/') && !request('category') && !request('search') ? 'active-cat' : '' }}">
             <i class="bi bi-house me-1"></i>Beranda
         </a>
         @foreach(['Nasional','Internasional','Ekonomi','Olahraga','Teknologi','Hiburan','Kesehatan','Pendidikan'] as $cat)
@@ -219,6 +228,12 @@
             {{ $cat }}
         </a>
         @endforeach
+        <a href="/tentang" class="nav-link {{ request()->is('tentang') ? 'active-cat' : '' }}">
+            <i class="bi bi-info-circle me-1"></i>Tentang Kami
+        </a>
+        <a href="/kontak" class="nav-link {{ request()->is('kontak') ? 'active-cat' : '' }}">
+            <i class="bi bi-envelope me-1"></i>Kontak
+        </a>
     </div>
 </nav>
 
@@ -237,6 +252,12 @@
             <i class="bi bi-chevron-right me-2 text-red"></i>{{ $cat }}
         </a>
         @endforeach
+        <a href="/tentang" class="d-block py-2 border-bottom text-decoration-none text-dark small">
+            <i class="bi bi-info-circle me-2 text-red"></i>Tentang Kami
+        </a>
+        <a href="/kontak" class="d-block py-2 border-bottom text-decoration-none text-dark small">
+            <i class="bi bi-envelope me-2 text-red"></i>Kontak
+        </a>
     </div>
 </div>
 
@@ -287,11 +308,21 @@
                     Portal berita terpercaya yang menyajikan informasi terkini, mendalam, dan berimbang dari seluruh penjuru Indonesia dan dunia.
                 </p>
                 <div class="d-flex gap-2 mt-3">
-                    @foreach(['facebook','twitter','instagram','youtube'] as $sm)
-                    <a href="#" class="btn btn-sm" style="background:#1f2937;color:#9ca3af;border-radius:8px;padding:6px 10px">
-                        <i class="bi bi-{{ $sm }}"></i>
+                    <a href="https://facebook.com/portalberita" target="_blank" class="btn btn-sm footer-social-btn">
+                        <i class="bi bi-facebook"></i>
                     </a>
-                    @endforeach
+                    <a href="https://twitter.com/portalberita" target="_blank" class="btn btn-sm footer-social-btn">
+                        <i class="bi bi-twitter-x"></i>
+                    </a>
+                    <a href="https://instagram.com/portalberita" target="_blank" class="btn btn-sm footer-social-btn">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+                    <a href="https://youtube.com/@portalberita" target="_blank" class="btn btn-sm footer-social-btn">
+                        <i class="bi bi-youtube"></i>
+                    </a>
+                    <a href="https://tiktok.com/@portalberita" target="_blank" class="btn btn-sm footer-social-btn">
+                        <i class="bi bi-tiktok"></i>
+                    </a>
                 </div>
             </div>
             <div class="col-6 col-md-2">
@@ -302,9 +333,11 @@
             </div>
             <div class="col-6 col-md-3">
                 <p class="footer-title mb-3">Tentang Kami</p>
-                @foreach(['Profil Redaksi','Pedoman Media','Kebijakan Privasi','Syarat & Ketentuan','Karir'] as $item)
-                <a href="#" class="footer-link">{{ $item }}</a>
-                @endforeach
+                <a href="/tentang" class="footer-link">Profil Redaksi</a>
+                <a href="/tentang" class="footer-link">Pedoman Media</a>
+                <a href="/tentang" class="footer-link">Kebijakan Privasi</a>
+                <a href="/tentang" class="footer-link">Syarat & Ketentuan</a>
+                <a href="/kontak" class="footer-link">Karir</a>
             </div>
             <div class="col-12 col-md-3">
                 <p class="footer-title mb-3">Kontak</p>

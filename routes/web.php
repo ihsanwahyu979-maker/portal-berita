@@ -53,7 +53,20 @@ Route::get('/berita/{id}', function ($id) {
     ]);
 });
 
-// Admin Routes
+// Tentang Kami
+Route::get('/tentang', function () {
+    return view('public.tentang');
+});
+
+// Kontak
+Route::get('/kontak', function () {
+    return view('public.kontak');
+});
+
+Route::post('/kontak', function () {
+    // Simpan pesan kontak (opsional, bisa ditambahkan model Contact nanti)
+    return redirect('/kontak')->with('contact_success', 'Terima kasih! Pesan Anda telah berhasil dikirim. Tim kami akan segera menghubungi Anda.');
+});
 Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard', [
