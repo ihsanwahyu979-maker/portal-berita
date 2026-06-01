@@ -38,6 +38,10 @@ chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 echo "DEBUG DB_CONNECTION: ${DB_CONNECTION}"
 echo "DEBUG DATABASE_URL: ${DATABASE_URL}"
 
+# Override .env to force debug mode and errorlog so we can see what's wrong
+sed -i 's/APP_DEBUG=.*/APP_DEBUG=true/g' /var/www/html/.env
+sed -i 's/LOG_CHANNEL=.*/LOG_CHANNEL=errorlog/g' /var/www/html/.env
+
 # Laravel: clear cache & optimize
 cd /var/www/html
 php artisan config:clear || true
