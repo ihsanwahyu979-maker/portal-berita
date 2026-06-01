@@ -42,6 +42,17 @@ echo "DEBUG DATABASE_URL: ${DATABASE_URL}"
 sed -i 's/APP_DEBUG=.*/APP_DEBUG=true/g' /var/www/html/.env
 sed -i 's/LOG_CHANNEL=.*/LOG_CHANNEL=errorlog/g' /var/www/html/.env
 
+# Debug PHP
+echo "DEBUG PHP MODULES:"
+php -m | grep -i mongo || echo "MongoDB extension NOT loaded!"
+php -i | grep display_errors
+php -i | grep log_errors
+
+# FORCE display_errors to see fatal errors in browser!
+echo "display_errors = On" > /usr/local/etc/php/conf.d/docker-php-ext-display-errors.ini
+echo "display_startup_errors = On" >> /usr/local/etc/php/conf.d/docker-php-ext-display-errors.ini
+echo "error_reporting = E_ALL" >> /usr/local/etc/php/conf.d/docker-php-ext-display-errors.ini
+
 # Laravel: clear cache & optimize
 cd /var/www/html
 php artisan config:clear || true
