@@ -38,6 +38,12 @@ return [
             'database' => env('DB_DATABASE', 'portal_berita'),
         ],
 
+        'mongodb+srv' => [
+            'driver'   => 'mongodb',
+            'dsn'      => env('DATABASE_URL', env('DB_URI')),
+            'database' => env('DB_DATABASE', 'portal_berita'),
+        ],
+
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DB_URL'),

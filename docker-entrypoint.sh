@@ -34,11 +34,15 @@ mkdir -p /var/www/html/bootstrap/cache
 chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
+# Debug: Print environment variables related to DB
+echo "DEBUG DB_CONNECTION: ${DB_CONNECTION}"
+echo "DEBUG DATABASE_URL: ${DATABASE_URL}"
+
 # Laravel: clear cache & optimize
 cd /var/www/html
-php artisan config:clear
-php artisan cache:clear
-php artisan view:clear
+php artisan config:clear || true
+php artisan cache:clear || true
+php artisan view:clear || true
 php artisan storage:link || true
 
 exec apache2-foreground
