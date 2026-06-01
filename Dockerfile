@@ -27,7 +27,6 @@ RUN a2dismod mpm_event mpm_worker || true \
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
-RUN sed -i 's/80/${PORT:-80}/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf
 
 # Set working directory
 WORKDIR /var/www/html
@@ -35,8 +34,14 @@ WORKDIR /var/www/html
 # Copy all files
 COPY . /var/www/html
 
+# Setup .env file (karena .env di-gitignore, harus dibuat dari .env.example)
+RUN cp .env.example .env
+
 # Install dependencies PHP
 RUN composer install --no-interaction --optimize-autoloader --ignore-platform-req=ext-mongodb
+
+# Generate APP_KEY
+RUN php artisan key:generate --force
 
 # Install dependencies Frontend & Build
 RUN npm install
@@ -44,8 +49,10 @@ RUN npm run build
 
 # Set Permissions for Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Copy and set entrypoint to fix MPM error at runtime
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]
+
