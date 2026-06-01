@@ -19,8 +19,9 @@ RUN docker-php-ext-install pdo pdo_mysql sockets \
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Enable Apache mod_rewrite for Laravel
-RUN a2enmod rewrite
+# Enable Apache mod_rewrite for Laravel and fix MPM issue
+RUN a2dismod mpm_event mpm_worker || true \
+    && a2enmod mpm_prefork rewrite
 
 # Set Document Root to public folder
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
