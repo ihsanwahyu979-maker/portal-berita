@@ -157,6 +157,30 @@
             <div class="s-icon"><i class="bi bi-plus-square"></i></div>
             <span>Tulis Berita Baru</span>
         </a>
+        
+        <div class="s-section-label">Interaksi</div>
+        
+        <a href="/admin/tinjauan" class="s-link {{ request()->is('admin/tinjauan*') ? 'active' : '' }}">
+            <div class="s-icon"><i class="bi bi-person-lines-fill"></i></div>
+            <span>Tinjauan Berita</span>
+            @php
+                $pendingCount = \App\Models\Submission::where('status', 'pending')->count();
+            @endphp
+            @if($pendingCount > 0)
+                <span class="badge bg-danger rounded-pill ms-auto" style="font-size: 0.65rem;">{{ $pendingCount }}</span>
+            @endif
+        </a>
+        
+        <a href="/admin/pesan" class="s-link {{ request()->is('admin/pesan*') ? 'active' : '' }}">
+            <div class="s-icon"><i class="bi bi-envelope"></i></div>
+            <span>Pesan Masuk</span>
+            @php
+                $unreadCount = \App\Models\ContactMessage::where('is_read', false)->count();
+            @endphp
+            @if($unreadCount > 0)
+                <span class="badge bg-danger rounded-pill ms-auto" style="font-size: 0.65rem;">{{ $unreadCount }}</span>
+            @endif
+        </a>
 
         <div class="s-section-label">Lainnya</div>
 

@@ -5,9 +5,12 @@
 
 {{-- Breadcrumb --}}
 <nav aria-label="breadcrumb" class="mb-4">
-    <ol class="breadcrumb bg-transparent p-0 m-0 small">
-        <li class="breadcrumb-item"><a href="/" class="text-red text-decoration-none"><i class="bi bi-house me-1"></i>Beranda</a></li>
-        <li class="breadcrumb-item"><a href="/?category={{ $article->category }}" class="text-red text-decoration-none">{{ $article->category }}</a></li>
+    <ol class="breadcrumb bg-transparent p-0 m-0 small fw-medium">
+        <li class="breadcrumb-item"><a href="/" class="text-accent text-decoration-none"><i class="bi bi-house me-1"></i>Beranda</a></li>
+        @if($article->region)
+        <li class="breadcrumb-item"><a href="/?region={{ $article->region }}" class="text-accent text-decoration-none">{{ $article->region }}</a></li>
+        @endif
+        <li class="breadcrumb-item"><a href="/?category={{ $article->category }}" class="text-accent text-decoration-none">{{ $article->category }}</a></li>
         <li class="breadcrumb-item active text-muted text-truncate" style="max-width:320px">{{ $article->title }}</li>
     </ol>
 </nav>
@@ -16,66 +19,80 @@
 
     {{-- ── Main Article ── --}}
     <div class="col-12 col-lg-8">
-        <article class="bg-white rounded-3 border shadow-sm p-4 p-md-5">
+        <article class="bg-white rounded-4 border-0 shadow-sm p-4 p-md-5">
 
-            <span class="cat cat-{{ $article->category }} mb-3 d-inline-block">{{ $article->category }}</span>
-            @if($article->is_featured)
-            <span class="badge ms-1 mb-3" style="background:var(--gold);color:#000;font-size:.7rem">
-                <i class="bi bi-star-fill me-1"></i>UNGGULAN
-            </span>
-            @endif
+            <div class="d-flex flex-wrap gap-2 mb-4">
+                @if($article->region)
+                <span class="cat-badge region-badge shadow-sm">{{ $article->region }}</span>
+                @endif
+                <span class="cat-badge cat-{{ $article->category }} shadow-sm">{{ $article->category }}</span>
+                @if($article->is_featured)
+                <span class="cat-badge shadow-sm" style="background:var(--gold);color:#000;">
+                    <i class="bi bi-star-fill me-1"></i>PILIHAN REDAKSI
+                </span>
+                @endif
+            </div>
 
-            <h1 class="fw-bold mb-4" style="font-size:2rem;line-height:1.3;font-family:'Playfair Display',serif">
+            <h1 class="fw-bold mb-4 serif text-dark" style="font-size:2.4rem;line-height:1.25">
                 {{ $article->title }}
             </h1>
 
             @if($article->excerpt)
-            <p class="mb-4 fs-5 fst-italic text-muted border-start border-4 border-danger ps-4 py-1"
-               style="line-height:1.6;background:rgba(204,26,26,.04);border-radius:0 8px 8px 0">
+            <div class="mb-4 fst-italic text-muted border-start border-4 ps-4 py-2"
+               style="border-color: var(--accent) !important; line-height:1.7; font-size: 1.1rem; background:linear-gradient(to right, rgba(225, 29, 72, 0.05), transparent); border-radius:0 12px 12px 0">
                 {{ $article->excerpt }}
-            </p>
+            </div>
             @endif
 
             {{-- Meta --}}
-            <div class="d-flex flex-wrap gap-3 align-items-center mb-4 pb-4 border-bottom" style="font-size:.83rem">
-                <div class="d-flex align-items-center gap-2">
-                    <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold"
-                         style="width:36px;height:36px;background:var(--red);font-size:.8rem;flex-shrink:0">
+            <div class="d-flex flex-wrap gap-4 align-items-center mb-4 pb-4 border-bottom" style="font-size:0.9rem">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm"
+                         style="width:45px;height:45px;background:linear-gradient(135deg, var(--accent), #9f1239);font-size:1.1rem;flex-shrink:0">
                         {{ strtoupper(substr($article->author_name ?: 'R', 0, 1)) }}
                     </div>
                     <div>
-                        <div class="fw-semibold text-dark" style="font-size:.85rem">{{ $article->author_name ?: 'Redaksi' }}</div>
-                        <div class="text-muted" style="font-size:.72rem">Penulis</div>
+                        <div class="fw-bold text-dark" style="font-size:1rem">{{ $article->author_name ?: 'Redaksi' }}</div>
+                        <div class="text-muted" style="font-size:0.75rem; letter-spacing: 0.05em; text-transform: uppercase;">Penulis</div>
                     </div>
                 </div>
-                <span class="text-muted"><i class="bi bi-calendar3 me-1 text-red"></i>{{ $article->created_at->locale('id')->isoFormat('D MMMM YYYY') }}</span>
-                <span class="text-muted"><i class="bi bi-clock me-1 text-red"></i>{{ $article->created_at->diffForHumans() }}</span>
-                <span class="ms-auto text-muted"><i class="bi bi-eye me-1 text-red"></i>{{ number_format($article->view_count) }} pembaca</span>
+                <span class="text-muted d-flex align-items-center gap-2"><i class="bi bi-calendar-event text-accent"></i>{{ $article->created_at->locale('id')->isoFormat('dddd, D MMMM YYYY') }}</span>
+                <span class="text-muted d-flex align-items-center gap-2"><i class="bi bi-clock text-accent"></i>{{ $article->created_at->format('H:i') }} WIB</span>
+                <span class="ms-auto text-muted d-flex align-items-center gap-2 bg-light px-3 py-1 rounded-pill"><i class="bi bi-eye text-accent"></i>{{ number_format($article->view_count) }} x dibaca</span>
             </div>
 
-            <img src="{{ $article->image_url ?: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=900' }}"
-                 class="w-100 rounded-3 mb-4" style="height:380px;object-fit:cover;box-shadow:0 4px 20px rgba(0,0,0,.12)"
-                 alt="{{ $article->title }}">
+            <div class="position-relative mb-5 rounded-4 overflow-hidden shadow-sm">
+                <img src="{{ $article->image_url ? (Str::startsWith($article->image_url, ['http://', 'https://']) ? $article->image_url : asset('storage/' . $article->image_url)) : 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=900' }}"
+                     class="w-100 object-fit-cover" style="height:450px;"
+                     alt="{{ $article->title }}">
+            </div>
 
             {{-- Share --}}
-            <div class="d-flex gap-2 mb-4">
-                <span class="text-muted small me-1"><i class="bi bi-share me-1"></i>Bagikan:</span>
-                @foreach(['facebook'=>'#1877f2','whatsapp'=>'#25d366','twitter'=>'#1da1f2'] as $s => $c)
-                <a href="#" class="btn btn-sm rounded-pill text-white px-3" style="background:{{ $c }};font-size:.78rem">
-                    <i class="bi bi-{{ $s }} me-1"></i>{{ ucfirst($s) }}
+            <div class="d-flex flex-wrap gap-2 mb-5 align-items-center">
+                <span class="text-muted small fw-bold me-2 text-uppercase" style="letter-spacing: 0.1em;"><i class="bi bi-share-fill me-2 text-accent"></i>Bagikan:</span>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->url()) }}" target="_blank" class="btn btn-sm rounded-pill text-white px-4 fw-medium shadow-sm" style="background:#1877f2;transition:transform 0.2s">
+                    <i class="bi bi-facebook me-1"></i>Facebook
                 </a>
-                @endforeach
+                <a href="https://api.whatsapp.com/send?text={{ urlencode($article->title . ' ' . request()->url()) }}" target="_blank" class="btn btn-sm rounded-pill text-white px-4 fw-medium shadow-sm" style="background:#25d366;transition:transform 0.2s">
+                    <i class="bi bi-whatsapp me-1"></i>Whatsapp
+                </a>
+                <a href="https://twitter.com/intent/tweet?text={{ urlencode($article->title) }}&url={{ urlencode(request()->url()) }}" target="_blank" class="btn btn-sm rounded-pill text-white px-4 fw-medium shadow-sm" style="background:#0f1419;transition:transform 0.2s">
+                    <i class="bi bi-twitter-x me-1"></i>X (Twitter)
+                </a>
             </div>
 
             {{-- Content --}}
-            <div style="white-space:pre-wrap;line-height:1.9;font-size:.97rem;color:#374151">{{ $article->content }}</div>
+            <div class="article-content" style="white-space:pre-wrap;line-height:2;font-size:1.05rem;color:#1e293b">{{ $article->content }}</div>
+            <style>
+                .article-content p { margin-bottom: 1.5rem; }
+            </style>
 
             {{-- Tags --}}
             @if($article->tags && count($article->tags))
             <div class="mt-5 pt-4 border-top d-flex flex-wrap gap-2 align-items-center">
-                <i class="bi bi-tag text-muted"></i>
+                <i class="bi bi-tags-fill text-muted fs-5"></i>
                 @foreach($article->tags as $tag)
-                <span class="badge border text-secondary fw-normal" style="background:#f3f4f6;font-size:.8rem">#{{ $tag }}</span>
+                <span class="badge border bg-light text-dark fw-medium px-3 py-2 rounded-pill shadow-sm" style="font-size:0.85rem">#{{ $tag }}</span>
                 @endforeach
             </div>
             @endif
@@ -86,40 +103,55 @@
     <div class="col-12 col-lg-4">
 
         @if($related->count())
-        <div class="bg-white rounded-3 border shadow-sm p-4 mb-4">
-            <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
-                <span style="width:4px;height:20px;background:var(--red);border-radius:2px;display:inline-block"></span>
-                <h5 class="fw-bold mb-0" style="font-size:1rem">Berita Terkait</h5>
+        <div class="bg-white rounded-4 border-0 shadow-sm p-4 mb-4">
+            <div class="d-flex align-items-center gap-2 mb-4 pb-3 border-bottom">
+                <span style="width:5px;height:24px;background:var(--accent);border-radius:3px;display:inline-block"></span>
+                <span class="fw-bold text-uppercase" style="font-size:0.85rem;letter-spacing:0.1em;color:var(--primary)">Terkait {{ $article->category }}</span>
             </div>
-            @foreach($related as $art)
-            <a href="/berita/{{ $art->id }}" class="s-card">
-                <img src="{{ $art->image_url ?: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=200' }}" alt="">
-                <div>
-                    <span class="cat cat-{{ $art->category }} mb-1 d-inline-block">{{ $art->category }}</span>
-                    <p class="mb-1 fw-semibold s-title lc2" style="font-size:.85rem">{{ $art->title }}</p>
-                    <small class="text-muted">{{ $art->created_at->diffForHumans() }}</small>
-                </div>
-            </a>
-            @endforeach
+            
+            <div class="d-flex flex-column gap-3">
+                @foreach($related as $art)
+                <a href="/berita/{{ $art->id }}" class="text-decoration-none d-flex gap-3 align-items-center group s-card-modern">
+                    <div style="width: 100px; height: 80px; flex-shrink: 0; overflow: hidden; border-radius: 8px;">
+                        <img src="{{ $art->image_url ? (Str::startsWith($art->image_url, ['http://', 'https://']) ? $art->image_url : asset('storage/' . $art->image_url)) : 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=200' }}" alt="" class="w-100 h-100 object-fit-cover" style="transition: transform 0.3s ease;">
+                    </div>
+                    <div class="d-flex flex-column justify-content-center">
+                        <div class="d-flex gap-1 mb-1">
+                            @if($art->region)
+                            <span class="badge bg-dark" style="font-size:0.6rem">{{ $art->region }}</span>
+                            @endif
+                        </div>
+                        <p class="mb-1 fw-bold lc2 text-dark serif s-title" style="font-size:0.95rem; line-height: 1.3; transition: color 0.2s;">{{ $art->title }}</p>
+                        <small class="text-muted" style="font-size:0.7rem"><i class="bi bi-clock me-1"></i>{{ $art->created_at->diffForHumans() }}</small>
+                    </div>
+                </a>
+                @endforeach
+            </div>
+            <style>
+                .s-card-modern:hover img { transform: scale(1.1); }
+                .s-card-modern:hover .s-title { color: var(--accent) !important; }
+            </style>
         </div>
         @endif
 
         {{-- Kategori --}}
-        <div class="bg-white rounded-3 border shadow-sm p-4">
-            <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
-                <span style="width:4px;height:20px;background:var(--red);border-radius:2px;display:inline-block"></span>
-                <h5 class="fw-bold mb-0" style="font-size:1rem">Jelajahi Kategori</h5>
+        <div class="bg-white rounded-4 border-0 shadow-sm p-4">
+            <div class="d-flex align-items-center gap-2 mb-4 pb-3 border-bottom">
+                <span style="width:5px;height:24px;background:var(--accent);border-radius:3px;display:inline-block"></span>
+                <span class="fw-bold text-uppercase" style="font-size:0.85rem;letter-spacing:0.1em;color:var(--primary)">Jelajahi Topik</span>
             </div>
-            @foreach(['Nasional','Internasional','Ekonomi','Olahraga','Teknologi','Hiburan','Kesehatan','Pendidikan'] as $cat)
-            <a href="/?category={{ $cat }}"
-               class="d-flex justify-content-between align-items-center py-2 px-3 rounded-2 text-decoration-none text-dark mb-1 hover-cat"
-               style="transition:background .2s;font-size:.88rem"
-               onmouseover="this.style.background='rgba(204,26,26,.06)'"
-               onmouseout="this.style.background='transparent'">
-                <span><span class="cat cat-{{ $cat }} me-2">{{ substr($cat,0,3) }}</span>{{ $cat }}</span>
-                <i class="bi bi-chevron-right text-red" style="font-size:.75rem"></i>
-            </a>
-            @endforeach
+            <div class="d-flex flex-column gap-2">
+                @foreach(['Politik','Ekonomi','Bisnis','Olahraga','Teknologi','Hiburan','Kesehatan','Pendidikan'] as $cat)
+                <a href="/?category={{ $cat }}"
+                   class="d-flex justify-content-between align-items-center py-2 px-3 rounded-3 text-decoration-none text-dark fw-medium"
+                   style="transition:all .2s;font-size:0.9rem; background: var(--gray-bg);"
+                   onmouseover="this.style.background='rgba(225,29,72,.05)'; this.style.color='var(--accent)';"
+                   onmouseout="this.style.background='var(--gray-bg)'; this.style.color='var(--text-main)';">
+                    <span class="d-flex align-items-center gap-2"><span class="cat-badge cat-{{ $cat }} shadow-sm" style="font-size:0.5rem; padding: 3px 6px;">●</span> {{ $cat }}</span>
+                    <i class="bi bi-chevron-right text-muted" style="font-size:.75rem"></i>
+                </a>
+                @endforeach
+            </div>
         </div>
     </div>
 </div>

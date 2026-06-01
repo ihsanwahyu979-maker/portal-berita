@@ -51,29 +51,29 @@
             <div class="row g-3 mt-3">
                 <div class="col-6">
                     <div class="about-stat-card">
-                        <i class="bi bi-newspaper text-red fs-3"></i>
-                        <div class="fw-bold fs-4 mt-2" style="color:var(--dark)">10.000+</div>
+                        <i class="bi bi-newspaper text-accent fs-3"></i>
+                        <div class="fw-bold fs-4 mt-2 counter-text" style="color:#0f172a"><span class="counter" data-target="10000">0</span>+</div>
                         <small class="text-muted">Artikel Dipublikasi</small>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="about-stat-card">
-                        <i class="bi bi-people-fill text-red fs-3"></i>
-                        <div class="fw-bold fs-4 mt-2" style="color:var(--dark)">500K+</div>
+                        <i class="bi bi-people-fill text-accent fs-3"></i>
+                        <div class="fw-bold fs-4 mt-2 counter-text" style="color:#0f172a"><span class="counter" data-target="500">0</span>K+</div>
                         <small class="text-muted">Pembaca Bulanan</small>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="about-stat-card">
-                        <i class="bi bi-pen-fill text-red fs-3"></i>
-                        <div class="fw-bold fs-4 mt-2" style="color:var(--dark)">50+</div>
+                        <i class="bi bi-pen-fill text-accent fs-3"></i>
+                        <div class="fw-bold fs-4 mt-2 counter-text" style="color:#0f172a"><span class="counter" data-target="50">0</span>+</div>
                         <small class="text-muted">Jurnalis Aktif</small>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="about-stat-card">
-                        <i class="bi bi-globe text-red fs-3"></i>
-                        <div class="fw-bold fs-4 mt-2" style="color:var(--dark)">34</div>
+                        <i class="bi bi-globe text-accent fs-3"></i>
+                        <div class="fw-bold fs-4 mt-2 counter-text" style="color:#0f172a"><span class="counter" data-target="34">0</span></div>
                         <small class="text-muted">Provinsi Terjangkau</small>
                     </div>
                 </div>
@@ -194,7 +194,7 @@
     <p class="text-muted mb-4" style="max-width:500px;margin:0 auto;font-size:.92rem">
         Kami selalu terbuka untuk jurnalis berbakat dan profesional media yang memiliki passion di dunia jurnalisme digital.
     </p>
-    <a href="/kontak" class="btn btn-red rounded-pill px-4 py-2">
+    <a href="/kontak" class="btn btn-danger rounded-pill px-4 py-2" style="background-color: var(--accent); border: none;">
         <i class="bi bi-envelope me-2"></i>Hubungi Kami
     </a>
 </section>
@@ -235,7 +235,7 @@
         position: absolute;
         bottom: -15px;
         right: 20px;
-        background: var(--dark);
+        background: #0f172a;
         padding: 16px 22px;
         border-radius: 12px;
         display: flex;
@@ -307,10 +307,53 @@
     }
 
     .pedoman-card {
-        background: linear-gradient(135deg, var(--dark), var(--dark2));
+        background: linear-gradient(135deg, #0f172a, #1e293b);
         border-radius: 16px;
         padding: 48px;
         border: 1px solid #1f2937;
     }
 </style>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200; // The lower the slower
+
+        const animateCounters = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const updateCount = () => {
+                        const target = +counter.getAttribute('data-target');
+                        const count = +counter.innerText;
+                        
+                        // Lower inc to slow and higher to speed up
+                        const inc = target / speed;
+
+                        // Check if target is reached
+                        if (count < target) {
+                            // Add inc to count and output in counter
+                            counter.innerText = Math.ceil(count + inc);
+                            // Call function every ms
+                            setTimeout(updateCount, 15);
+                        } else {
+                            counter.innerText = target;
+                        }
+                    };
+                    updateCount();
+                    observer.unobserve(counter); // Animate only once
+                }
+            });
+        };
+
+        const options = {
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver(animateCounters, options);
+
+        counters.forEach(counter => {
+            observer.observe(counter);
+        });
+    });
+</script>
 @endpush

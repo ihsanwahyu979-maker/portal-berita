@@ -18,6 +18,7 @@
         <thead>
             <tr>
                 <th>Judul Berita</th>
+                <th>Wilayah</th>
                 <th>Kategori</th>
                 <th>Penulis</th>
                 <th>Tgl Dibuat</th>
@@ -31,6 +32,7 @@
                     <div class="fw-semibold text-dark">{{ $item->title }}</div>
                     <div class="small text-muted">{{ Str::limit($item->excerpt, 50) }}</div>
                 </td>
+                <td><span class="badge {{ $item->region == 'Nasional' ? 'bg-danger' : 'bg-primary' }}">{{ $item->region ?? '-' }}</span></td>
                 <td><span class="badge bg-secondary">{{ $item->category }}</span></td>
                 <td>{{ $item->author_name }}</td>
                 <td>{{ $item->created_at->format('d M Y') }}</td>
@@ -51,7 +53,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="5" class="text-center py-4 text-muted">Belum ada berita.</td>
+                <td colspan="6" class="text-center py-4 text-muted">Belum ada berita.</td>
             </tr>
             @endforelse
         </tbody>

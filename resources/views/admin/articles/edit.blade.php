@@ -8,7 +8,7 @@
 
 @section('content')
 <div class="form-panel mx-auto" style="max-width: 800px;">
-    <form action="/admin/berita/{{ $article->_id }}" method="POST">
+    <form action="/admin/berita/{{ $article->_id }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         
@@ -18,26 +18,52 @@
         </div>
 
         <div class="row mb-3">
-            <div class="col-md-6">
+            <div class="col-md-4">
+                <label class="form-label">Wilayah (Region)</label>
+                <select name="region" class="form-select" required>
+                    <option value="">Pilih Wilayah...</option>
+                    <option value="Nasional" {{ old('region', $article->region)=='Nasional' ? 'selected':'' }}>Nasional</option>
+                    <option value="Internasional" {{ old('region', $article->region)=='Internasional' ? 'selected':'' }}>Internasional</option>
+                </select>
+            </div>
+            <div class="col-md-4 mt-3 mt-md-0">
                 <label class="form-label">Kategori</label>
                 <select name="category" class="form-select" required>
                     <option value="">Pilih Kategori...</option>
                     <option value="Politik" {{ old('category', $article->category)=='Politik' ? 'selected':'' }}>Politik</option>
-                    <option value="Teknologi" {{ old('category', $article->category)=='Teknologi' ? 'selected':'' }}>Teknologi</option>
-                    <option value="Olahraga" {{ old('category', $article->category)=='Olahraga' ? 'selected':'' }}>Olahraga</option>
-                    <option value="Hiburan" {{ old('category', $article->category)=='Hiburan' ? 'selected':'' }}>Hiburan</option>
+                    <option value="Ekonomi" {{ old('category', $article->category)=='Ekonomi' ? 'selected':'' }}>Ekonomi</option>
                     <option value="Bisnis" {{ old('category', $article->category)=='Bisnis' ? 'selected':'' }}>Bisnis</option>
+                    <option value="Olahraga" {{ old('category', $article->category)=='Olahraga' ? 'selected':'' }}>Olahraga</option>
+                    <option value="Teknologi" {{ old('category', $article->category)=='Teknologi' ? 'selected':'' }}>Teknologi</option>
+                    <option value="Hiburan" {{ old('category', $article->category)=='Hiburan' ? 'selected':'' }}>Hiburan</option>
+                    <option value="Kesehatan" {{ old('category', $article->category)=='Kesehatan' ? 'selected':'' }}>Kesehatan</option>
+                    <option value="Pendidikan" {{ old('category', $article->category)=='Pendidikan' ? 'selected':'' }}>Pendidikan</option>
                 </select>
             </div>
-            <div class="col-md-6 mt-3 mt-md-0">
+            <div class="col-md-4 mt-3 mt-md-0">
                 <label class="form-label">Nama Penulis</label>
                 <input type="text" name="author_name" class="form-control" value="{{ old('author_name', $article->author_name) }}" required>
             </div>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">URL Gambar Sampul (Opsional)</label>
-            <input type="url" name="image_url" class="form-control" value="{{ old('image_url', $article->image_url) }}">
+            <label class="form-label">Gambar Sampul (Opsional)</label>
+            @if($article->image_url)
+                <div class="mb-2">
+                    <img src="{{ Str::startsWith($article->image_url, ['http://', 'https://']) ? $article->image_url : asset('storage/' . $article->image_url) }}" alt="Gambar Sampul" style="max-height: 150px; border-radius: 8px;">
+                </div>
+            @endif
+            <div class="row">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <label class="form-label">Upload Gambar Baru</label>
+                    <input type="file" name="image" class="form-control" accept="image/*">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Atau URL Gambar</label>
+                    <input type="url" name="image_url" class="form-control" value="{{ old('image_url', Str::startsWith($article->image_url, ['http://', 'https://']) ? $article->image_url : '') }}" placeholder="https://...">
+                </div>
+            </div>
+            <div class="form-text mt-2">Biarkan kosong jika tidak ingin mengubah gambar. Upload gambar akan memprioritaskan file daripada URL.</div>
         </div>
 
         <div class="mb-3">

@@ -30,6 +30,7 @@ class Article extends Model
         'title',
         'excerpt',
         'content',
+        'region',
         'category',
         'image_url',
         'author_name',

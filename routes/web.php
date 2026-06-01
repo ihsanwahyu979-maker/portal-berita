@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Article;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ContactMessageController;
+use App\Http\Controllers\SubmissionController;
 
 // Auth Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -12,10 +14,15 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Public Routes
 Route::get('/', function () {
+    $region = request('region');
     $category = request('category');
     $search = request('search');
     
     $query = Article::query();
+
+    if ($region) {
+        $query->where('region', $region);
+    }
 
     if ($category) {
         $query->where('category', $category);
@@ -62,11 +69,11 @@ Route::get('/tentang', function () {
 Route::get('/kontak', function () {
     return view('public.kontak');
 });
+Route::post('/kontak', [ContactMessageController::class, 'store']);
 
-Route::post('/kontak', function () {
-    // Simpan pesan kontak (opsional, bisa ditambahkan model Contact nanti)
-    return redirect('/kontak')->with('contact_success', 'Terima kasih! Pesan Anda telah berhasil dikirim. Tim kami akan segera menghubungi Anda.');
-});
+// Kirim Berita (Citizen Journalism)
+Route::get('/kirim-berita', [SubmissionController::class, 'create']);
+Route::post('/kirim-berita', [SubmissionController::class, 'store']);
 Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard', [
@@ -84,4 +91,16 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/berita/{id}/edit', [ArticleController::class, 'edit']);
     Route::put('/berita/{id}', [ArticleController::class, 'update']);
     Route::delete('/berita/{id}', [ArticleController::class, 'destroy']);
+
+    // Admin: Pesan Kontak
+    Route::get('/pesan', [ContactMessageController::class, 'index']);
+    Route::get('/pesan/{id}', [ContactMessageController::class, 'show']);
+    Route::delete('/pesan/{id}', [ContactMessageController::class, 'destroy']);
+
+    // Admin: Tinjauan Berita
+    Route::get('/tinjauan', [SubmissionController::class, 'index']);
+    Route::get('/tinjauan/{id}', [SubmissionController::class, 'show']);
+    Route::post('/tinjauan/{id}/approve', [SubmissionController::class, 'approve']);
+    Route::post('/tinjauan/{id}/reject', [SubmissionController::class, 'reject']);
+    Route::delete('/tinjauan/{id}', [SubmissionController::class, 'destroy']);
 });

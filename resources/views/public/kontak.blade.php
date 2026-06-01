@@ -138,7 +138,7 @@
                             <textarea name="message" class="form-control" rows="5" placeholder="Tulis pesan Anda di sini..." required></textarea>
                         </div>
                         <div class="col-12">
-                            <button type="submit" class="btn btn-red rounded-pill px-4 py-2">
+                            <button type="submit" class="btn btn-danger rounded-pill px-4 py-2" style="background-color: var(--accent); border: none;">
                                 <i class="bi bi-send me-2"></i>Kirim Pesan
                             </button>
                         </div>
@@ -167,11 +167,11 @@
                     <div class="d-flex flex-column gap-2">
                         <div class="d-flex justify-content-between" style="font-size:.88rem">
                             <span class="text-muted">Senin – Jumat</span>
-                            <span class="fw-semibold" style="color:var(--dark)">08.00 – 17.00 WIB</span>
+                            <span class="fw-semibold" style="color:#0f172a">08.00 – 17.00 WIB</span>
                         </div>
                         <div class="d-flex justify-content-between" style="font-size:.88rem">
                             <span class="text-muted">Sabtu</span>
-                            <span class="fw-semibold" style="color:var(--dark)">09.00 – 14.00 WIB</span>
+                            <span class="fw-semibold" style="color:#0f172a">09.00 – 14.00 WIB</span>
                         </div>
                         <div class="d-flex justify-content-between" style="font-size:.88rem">
                             <span class="text-muted">Minggu & Hari Libur</span>
@@ -273,7 +273,7 @@
         width: 38px;
         height: 38px;
         border-radius: 10px;
-        background: var(--dark);
+        background: #0f172a;
         color: #9ca3af;
         display: flex;
         align-items: center;
@@ -283,7 +283,7 @@
         text-decoration: none;
     }
     .kontak-social-btn:hover {
-        background: var(--red);
+        background: var(--accent);
         color: #fff;
         transform: translateY(-2px);
     }
@@ -302,8 +302,8 @@
     }
     .kontak-form-card .form-control:focus,
     .kontak-form-card .form-select:focus {
-        border-color: var(--red);
-        box-shadow: 0 0 0 3px rgba(204,26,26,.1);
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(225,29,72,.1);
     }
     .kontak-form-card .input-group-text {
         border-radius: 10px 0 0 10px;
@@ -323,11 +323,11 @@
     }
 
     .accordion-button:not(.collapsed) {
-        background: rgba(204,26,26,.05);
-        color: var(--red);
+        background: rgba(225,29,72,.05);
+        color: var(--accent);
     }
     .accordion-button:focus {
-        box-shadow: 0 0 0 3px rgba(204,26,26,.1);
+        box-shadow: 0 0 0 3px rgba(225,29,72,.1);
     }
 </style>
 @endpush
