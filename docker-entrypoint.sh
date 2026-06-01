@@ -34,9 +34,10 @@ mkdir -p /var/www/html/bootstrap/cache
 chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Debug: Print environment variables related to DB
-echo "DEBUG DB_CONNECTION: ${DB_CONNECTION}"
-echo "DEBUG DATABASE_URL: ${DATABASE_URL}"
+# Unset Railway's injected DB variables to prevent them from confusing Laravel's DB config parser
+unset DATABASE_URL
+unset DB_CONNECTION
+unset MONGO_URL
 
 # Override .env to force debug mode and errorlog so we can see what's wrong
 sed -i 's/APP_DEBUG=.*/APP_DEBUG=true/g' /var/www/html/.env
