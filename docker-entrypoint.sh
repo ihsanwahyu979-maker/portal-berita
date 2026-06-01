@@ -27,4 +27,19 @@ cat > /etc/apache2/sites-available/000-default.conf <<EOF
 </VirtualHost>
 EOF
 
+# Pastikan storage directories ada dan writable
+mkdir -p /var/www/html/storage/logs
+mkdir -p /var/www/html/storage/framework/{sessions,views,cache}
+mkdir -p /var/www/html/bootstrap/cache
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Laravel: clear cache & optimize
+cd /var/www/html
+php artisan config:clear
+php artisan cache:clear
+php artisan view:clear
+php artisan storage:link || true
+
 exec apache2-foreground
+
