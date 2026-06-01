@@ -34,7 +34,7 @@ WORKDIR /var/www/html
 COPY . /var/www/html
 
 # Install dependencies PHP
-RUN composer install --no-interaction --optimize-autoloader
+RUN composer install --no-interaction --optimize-autoloader --ignore-platform-req=ext-mongodb
 
 # Install dependencies Frontend & Build
 RUN npm install
