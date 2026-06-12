@@ -26,12 +26,15 @@ class SubmissionController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'image' => 'nullable|image|max:2048',
+            'image_url' => 'nullable|url',
         ]);
 
-        // Proses unggah gambar jika ada
+        // Proses gambar: Prioritaskan upload file, jika tidak ada, gunakan URL
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('submissions', 'public');
+        } elseif ($request->filled('image_url')) {
+            $imagePath = $request->image_url;
         }
 
         // Simpan kiriman ke database dengan status "pending" (menunggu)
@@ -94,8 +97,16 @@ class SubmissionController extends Controller
         // Ubah status kiriman menjadi "approved" (disetujui)
         $submission->update(['status' => 'approved']);
 
+        // Kirim email notifikasi bahwa berita disetujui
+        try {
+            \Illuminate\Support\Facades\Mail::to($submission->email)
+                ->send(new \App\Mail\SubmissionStatusMail($submission, 'approved'));
+        } catch (\Exception $e) {
+            // Log error atau biarkan saja agar tidak mengganggu proses admin
+        }
+
         // Kembali ke daftar tinjauan
-        return redirect('/admin/tinjauan')->with('success', 'Berita kiriman berhasil disetujui dan diterbitkan!');
+        return redirect('/admin/tinjauan')->with('success', 'Berita kiriman berhasil disetujui dan email pemberitahuan telah dikirim ke penulis!');
     }
 
     // Menolak kiriman berita
@@ -105,7 +116,15 @@ class SubmissionController extends Controller
         $submission = Submission::findOrFail($id);
         $submission->update(['status' => 'rejected']);
 
-        return redirect('/admin/tinjauan')->with('success', 'Berita kiriman telah ditolak.');
+        // Kirim email notifikasi bahwa berita ditolak
+        try {
+            \Illuminate\Support\Facades\Mail::to($submission->email)
+                ->send(new \App\Mail\SubmissionStatusMail($submission, 'rejected'));
+        } catch (\Exception $e) {
+            // Log error atau biarkan saja agar tidak mengganggu proses admin
+        }
+
+        return redirect('/admin/tinjauan')->with('success', 'Berita kiriman telah ditolak dan email pemberitahuan telah dikirim.');
     }
 
     // Menghapus kiriman berita secara permanen

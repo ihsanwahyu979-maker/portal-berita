@@ -66,9 +66,19 @@
                     </div>
 
                     <div class="col-12">
-                        <label class="form-label small fw-semibold text-muted">Foto Pendukung (Opsional)</label>
-                        <input type="file" name="image" class="form-control form-control-lg rounded-3" style="font-size: 0.95rem;" accept="image/*">
-                        <div class="form-text small">Format yang didukung: JPG, PNG. Maksimal 2MB.</div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-muted">Foto Pendukung (Upload File)</label>
+                                <input type="file" name="image" class="form-control form-control-lg rounded-3" style="font-size: 0.95rem;" accept="image/*">
+                                <div class="form-text small">Format yang didukung: JPG, PNG. Maksimal 2MB.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-muted">Atau URL Foto (Link Gambar)</label>
+                                <input type="url" name="image_url" class="form-control form-control-lg rounded-3" style="font-size: 0.95rem;" placeholder="https://...">
+                                <div class="form-text small">Masukkan link jika foto ada di internet.</div>
+                            </div>
+                        </div>
+                        <div class="form-text small mt-2 text-primary fw-semibold"><i class="bi bi-info-circle me-1"></i> Catatan: Anda bisa memilih salah satu (Upload atau Link URL). Jika Anda mengisi keduanya, maka foto yang di-upload akan lebih diprioritaskan.</div>
                     </div>
 
                     <div class="col-12 mt-4 text-center">
