@@ -624,11 +624,11 @@
                         </div>
                         <div class="d-flex align-items-center gap-3">
                             <i class="bi bi-envelope-fill text-accent fs-5"></i>
-                            <span>redaksi@portalberita.com</span>
+                            <span>portalberitaaa@gmail.com</span>
                         </div>
                         <div class="d-flex align-items-center gap-3">
                             <i class="bi bi-telephone-fill text-accent fs-5"></i>
-                            <span>+62 21 1234 5678</span>
+                            <span>085829163574</span>
                         </div>
                     </div>
                 </div>

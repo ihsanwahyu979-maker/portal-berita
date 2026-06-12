@@ -62,6 +62,9 @@ Route::get('/berita/{id}', function ($id) {
     // Cari artikel berdasarkan ID
     $article = Article::findOrFail($id);
     
+    // Increment view count
+    $article->increment('view_count');
+    
     // Cari 3 artikel terkait (kategori sama)
     $related = Article::where('category', $article->category)
                 ->where('_id', '!=', $id)
@@ -77,7 +80,10 @@ Route::get('/berita/{id}', function ($id) {
 
 // Halaman Tentang Kami
 Route::get('/tentang', function () {
-    return view('public.tentang');
+    return view('public.tentang', [
+        'total_articles' => Article::count(),
+        'total_views' => Article::sum('view_count'),
+    ]);
 });
 
 // Halaman Kontak Kami

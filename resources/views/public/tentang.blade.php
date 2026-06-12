@@ -52,15 +52,15 @@
                 <div class="col-6">
                     <div class="about-stat-card">
                         <i class="bi bi-newspaper text-accent fs-3"></i>
-                        <div class="fw-bold fs-4 mt-2 counter-text" style="color:#0f172a"><span class="counter" data-target="10000">0</span>+</div>
+                        <div class="fw-bold fs-4 mt-2 counter-text" style="color:#0f172a"><span class="counter" data-target="{{ $total_articles ?? 0 }}">0</span></div>
                         <small class="text-muted">Artikel Dipublikasi</small>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="about-stat-card">
                         <i class="bi bi-people-fill text-accent fs-3"></i>
-                        <div class="fw-bold fs-4 mt-2 counter-text" style="color:#0f172a"><span class="counter" data-target="500">0</span>K+</div>
-                        <small class="text-muted">Pembaca Bulanan</small>
+                        <div class="fw-bold fs-4 mt-2 counter-text" style="color:#0f172a"><span class="counter" data-target="{{ $total_views ?? 0 }}">0</span></div>
+                        <small class="text-muted">Total Pembaca</small>
                     </div>
                 </div>
                 <div class="col-6">

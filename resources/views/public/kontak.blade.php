@@ -38,8 +38,7 @@
                 </div>
                 <h6 class="fw-bold mb-2">Telepon</h6>
                 <p class="text-muted small mb-0" style="line-height:1.7">
-                    +62 21 1234 5678<br>
-                    +62 812 3456 7890<br>
+                    085829163574<br>
                     <small class="text-muted">Senin – Jumat, 08.00–17.00</small>
                 </p>
             </div>
@@ -51,9 +50,7 @@
                 </div>
                 <h6 class="fw-bold mb-2">Email</h6>
                 <p class="text-muted small mb-0" style="line-height:1.7">
-                    redaksi@portalberita.com<br>
-                    info@portalberita.com<br>
-                    iklan@portalberita.com
+                    portalberitaaa@gmail.com
                 </p>
             </div>
         </div>
@@ -195,8 +192,8 @@
             <div class="accordion" id="faqAccordion">
                 @php
                 $faqs = [
-                    ['q' => 'Bagaimana cara mengirimkan informasi/tips berita?', 'a' => 'Anda bisa mengirimkan informasi atau tips berita melalui email ke redaksi@portalberita.com atau melalui formulir kontak di halaman ini. Tim kami akan menindaklanjuti setiap informasi yang masuk.'],
-                    ['q' => 'Apakah PortalBerita menerima kerja sama iklan?', 'a' => 'Ya, kami menerima kerja sama iklan dan konten sponsor. Untuk informasi lebih lanjut mengenai tarif dan paket iklan, silakan hubungi tim komersial kami di iklan@portalberita.com.'],
+                    ['q' => 'Bagaimana cara mengirimkan informasi/tips berita?', 'a' => 'Anda bisa mengirimkan informasi atau tips berita melalui email ke portalberitaaa@gmail.com atau melalui formulir kontak di halaman ini. Tim kami akan menindaklanjuti setiap informasi yang masuk.'],
+                    ['q' => 'Apakah PortalBerita menerima kerja sama iklan?', 'a' => 'Ya, kami menerima kerja sama iklan dan konten sponsor. Untuk informasi lebih lanjut mengenai tarif dan paket iklan, silakan hubungi tim komersial kami di portalberitaaa@gmail.com.'],
                     ['q' => 'Bagaimana cara melamar kerja di PortalBerita?', 'a' => 'Anda bisa mengirimkan CV dan portofolio Anda ke karir@portalberita.com. Kami selalu terbuka untuk jurnalis, editor, desainer, dan profesional digital lainnya yang berbakat.'],
                     ['q' => 'Bagaimana jika saya menemukan berita yang tidak akurat?', 'a' => 'Kami sangat menghargai koreksi dari pembaca. Silakan kirim pemberitahuan melalui formulir kontak dengan subjek "Koreksi & Klarifikasi". Tim redaksi akan segera meninjau dan memperbarui berita jika diperlukan.'],
                 ];
