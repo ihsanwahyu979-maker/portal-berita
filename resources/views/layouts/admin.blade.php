@@ -184,6 +184,11 @@
 
         <div class="s-section-label">Lainnya</div>
 
+        <a href="/admin/users" class="s-link {{ request()->is('admin/users*') ? 'active' : '' }}">
+            <div class="s-icon"><i class="bi bi-people-fill"></i></div>
+            <span>Kelola Admin</span>
+        </a>
+
         <a href="/" target="_blank" class="s-link">
             <div class="s-icon"><i class="bi bi-globe2"></i></div>
             <span>Lihat Portal</span>

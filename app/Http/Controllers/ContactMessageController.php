@@ -64,4 +64,23 @@ class ContactMessageController extends Controller
         // Kembali ke daftar pesan
         return redirect('/admin/pesan')->with('success', 'Pesan berhasil dihapus.');
     }
+
+    // Membalas pesan
+    public function reply(Request $request, $id)
+    {
+        $request->validate([
+            'reply_text' => 'required|string',
+        ]);
+
+        $message = ContactMessage::findOrFail($id);
+
+        try {
+            \Illuminate\Support\Facades\Mail::to($message->email)
+                ->send(new \App\Mail\ReplyMessageMail($message, $request->reply_text));
+
+            return redirect()->back()->with('success', 'Balasan email berhasil dikirim!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal mengirim email: ' . $e->getMessage());
+        }
+    }
 }

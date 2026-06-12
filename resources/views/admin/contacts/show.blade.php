@@ -37,9 +37,9 @@
         </div>
         
         <div class="mt-5 pt-3 border-top">
-            <a href="mailto:{{ $message->email }}?subject=RE: {{ urlencode($message->subject) }}" class="btn btn-primary px-4">
+            <button type="button" class="btn btn-primary px-4" data-bs-toggle="modal" data-bs-target="#replyModal">
                 <i class="bi bi-reply me-1"></i> Balas via Email
-            </a>
+            </button>
             <form action="/admin/pesan/{{ $message->id }}" method="POST" class="d-inline ms-2" onsubmit="return confirm('Hapus pesan ini?')">
                 @csrf
                 @method('DELETE')
@@ -49,5 +49,40 @@
             </form>
         </div>
     </div>
+</div>
+
+<!-- Modal Balas Email -->
+<div class="modal fade" id="replyModal" tabindex="-1" aria-labelledby="replyModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="replyModalLabel">Balas Pesan ke {{ $message->name }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/admin/pesan/{{ $message->id }}/reply" method="POST">
+          @csrf
+          <div class="modal-body">
+              <div class="mb-3">
+                  <label class="form-label text-muted">Kepada:</label>
+                  <input type="text" class="form-control bg-light" value="{{ $message->email }}" readonly>
+              </div>
+              <div class="mb-3">
+                  <label class="form-label text-muted">Subjek:</label>
+                  <input type="text" class="form-control bg-light" value="RE: {{ $message->subject }}" readonly>
+              </div>
+              <div class="mb-3">
+                  <label for="reply_text" class="form-label">Pesan Balasan:</label>
+                  <textarea class="form-control" id="reply_text" name="reply_text" rows="6" required></textarea>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-send me-1"></i> Kirim Email
+            </button>
+          </div>
+      </form>
+    </div>
+  </div>
 </div>
 @endsection

@@ -118,6 +118,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     // Kelola Pesan Masuk
     Route::get('/pesan', [ContactMessageController::class, 'index']); // Daftar pesan
     Route::get('/pesan/{id}', [ContactMessageController::class, 'show']); // Detail pesan
+    Route::post('/pesan/{id}/reply', [ContactMessageController::class, 'reply']); // Balas pesan
     Route::delete('/pesan/{id}', [ContactMessageController::class, 'destroy']); // Hapus pesan
 
     // Kelola Tinjauan Kiriman Warga
@@ -126,4 +127,12 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::post('/tinjauan/{id}/approve', [SubmissionController::class, 'approve']); // Setujui
     Route::post('/tinjauan/{id}/reject', [SubmissionController::class, 'reject']); // Tolak
     Route::delete('/tinjauan/{id}', [SubmissionController::class, 'destroy']); // Hapus permanen
+
+    // Kelola Admin
+    Route::get('/users', [\App\Http\Controllers\AdminUserController::class, 'index']);
+    Route::get('/users/baru', [\App\Http\Controllers\AdminUserController::class, 'create']);
+    Route::post('/users', [\App\Http\Controllers\AdminUserController::class, 'store']);
+    Route::get('/users/{id}/edit', [\App\Http\Controllers\AdminUserController::class, 'edit']);
+    Route::put('/users/{id}', [\App\Http\Controllers\AdminUserController::class, 'update']);
+    Route::delete('/users/{id}', [\App\Http\Controllers\AdminUserController::class, 'destroy']);
 });
