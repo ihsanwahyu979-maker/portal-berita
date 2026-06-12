@@ -386,10 +386,18 @@
                 <i class="bi bi-calendar3 text-accent"></i>
                 <span class="fw-medium">{{ \Carbon\Carbon::now()->locale('id')->isoFormat('dddd, D MMMM YYYY') }}</span>
             </span>
-            <div class="d-flex gap-4">
-                <a href="/admin" class="d-flex align-items-center gap-1 fw-medium hover-white">
+            <div class="d-flex gap-4 align-items-center">
+                <a href="/admin" class="d-flex align-items-center gap-1 fw-medium hover-white text-decoration-none" style="color: #a1a1aa;">
                     <i class="bi bi-shield-lock text-accent"></i> Ruang Redaksi
                 </a>
+                @auth
+                <form action="/logout" method="POST" class="m-0">
+                    @csrf
+                    <button type="submit" class="btn btn-link p-0 border-0 text-decoration-none d-flex align-items-center gap-1 fw-medium hover-white" style="color: #a1a1aa;">
+                        <i class="bi bi-box-arrow-left text-accent"></i> Keluar
+                    </button>
+                </form>
+                @endauth
             </div>
         </div>
     </div>

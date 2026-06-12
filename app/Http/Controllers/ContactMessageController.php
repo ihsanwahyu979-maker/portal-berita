@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 
 class ContactMessageController extends Controller
 {
-    // Publik: Simpan pesan dari form kontak
+    // Simpan pesan dari pengunjung web
     public function store(Request $request)
     {
+        // Validasi input form kontak
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
@@ -18,6 +19,7 @@ class ContactMessageController extends Controller
             'message' => 'required|string',
         ]);
 
+        // Simpan pesan ke database
         ContactMessage::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -27,21 +29,25 @@ class ContactMessageController extends Controller
             'is_read' => false,
         ]);
 
+        // Kembali ke halaman kontak dengan pesan sukses
         return redirect('/kontak')->with('contact_success', 'Terima kasih! Pesan Anda telah berhasil dikirim. Tim kami akan segera menghubungi Anda.');
     }
 
-    // Admin: Daftar pesan
+    // Menampilkan semua pesan di dashboard admin
     public function index()
     {
+        // Ambil semua pesan, urutkan dari yang terbaru
         $messages = ContactMessage::orderBy('created_at', 'desc')->get();
         return view('admin.contacts.index', compact('messages'));
     }
 
-    // Admin: Detail pesan
+    // Menampilkan detail satu pesan
     public function show($id)
     {
+        // Cari pesan berdasarkan ID
         $message = ContactMessage::findOrFail($id);
         
+        // Tandai sudah dibaca jika belum dibaca
         if (!$message->is_read) {
             $message->update(['is_read' => true]);
         }
@@ -49,10 +55,13 @@ class ContactMessageController extends Controller
         return view('admin.contacts.show', compact('message'));
     }
 
-    // Admin: Hapus pesan
+    // Menghapus pesan
     public function destroy($id)
     {
+        // Hapus pesan dari database
         ContactMessage::destroy($id);
+        
+        // Kembali ke daftar pesan
         return redirect('/admin/pesan')->with('success', 'Pesan berhasil dihapus.');
     }
 }

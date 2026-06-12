@@ -46,17 +46,35 @@
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
-        <div class="mb-4">
+        <div class="mb-4 position-relative">
             <label class="form-label small fw-semibold text-secondary">Password</label>
-            <input type="password" name="password" class="form-control" required placeholder="••••••••">
+            <input type="password" name="password" id="password" class="form-control" required placeholder="••••••••">
+            <button type="button" id="togglePassword" class="btn btn-link position-absolute end-0 text-decoration-none text-muted" style="bottom: 0; padding: 12px 16px;">
+                <i class="bi bi-eye" id="eyeIcon"></i>
+            </button>
         </div>
         <div class="mb-4 form-check">
             <input type="checkbox" class="form-check-input" id="remember" name="remember">
             <label class="form-check-label small text-secondary" for="remember">Ingat Saya</label>
         </div>
         <button type="submit" class="btn-login">Masuk</button>
+        <div class="text-center mt-4">
+            <a href="/" class="text-decoration-none small text-secondary"><i class="bi bi-arrow-left"></i> Kembali ke Portal</a>
+        </div>
     </form>
 </div>
 
+<script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
+    const eyeIcon = document.querySelector('#eyeIcon');
+
+    togglePassword.addEventListener('click', function (e) {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        eyeIcon.classList.toggle('bi-eye');
+        eyeIcon.classList.toggle('bi-eye-slash');
+    });
+</script>
 </body>
 </html>

@@ -6,9 +6,11 @@ use MongoDB\Laravel\Eloquent\Model;
 
 class Submission extends Model
 {
+    // Menggunakan koneksi MongoDB dan koleksi (tabel) submissions
     protected $connection = 'mongodb';
     protected $collection = 'submissions';
 
+    // Kolom data kiriman berita warga yang boleh diisi
     protected $fillable = [
         'title',
         'content',
@@ -16,6 +18,6 @@ class Submission extends Model
         'email',
         'phone',
         'image_url',
-        'status', // pending, approved, rejected
+        'status', // Status kiriman: pending, approved, atau rejected
     ];
 }

@@ -7,25 +7,13 @@ use Carbon\Carbon;
 
 class Article extends Model
 {
-    /**
-     * The connection name for the model.
-     *
-     * @var string
-     */
+    // Menggunakan koneksi database MongoDB
     protected $connection = 'mongodb';
     
-    /**
-     * The collection associated with the model.
-     *
-     * @var string
-     */
+    // Nama koleksi (tabel) di MongoDB
     protected $collection = 'articles';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    // Kolom-kolom yang boleh diisi (ditambahkan ke database)
     protected $fillable = [
         'title',
         'excerpt',
@@ -39,11 +27,7 @@ class Article extends Model
         'tags',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
+    // Konversi otomatis tipe data agar sesuai
     protected $casts = [
         'is_featured' => 'boolean',
         'view_count' => 'integer',
